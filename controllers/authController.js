@@ -1,36 +1,30 @@
-const Usuario=require('../models/User');
+const User=require('../models/User');
 const bcryptjs=require('bcryptjs');
 const {validationResult}=require('express-validator');
 const jwt=require('jsonwebtoken');
 
 exports.authUser= async (req,res)=>{
-        //Revisar si hay errores
-        const errores=validationResult(req);
-        if(!errores.isEmpty()){
-            return res.status(400).json({errores: errores.array()})
-        }
-
-        const{email,password}=req.body;
-
         try {
-            let usuario=await Usuario.findOne({email});
+            const{email,password}=req.body;
+
+            let user=await User.findOne({email});
 
             //Revisar que sea un usuario registrado
-            if(!usuario){
+            if(!user){
                 return res.status(400).json({msg:'El usuario no existe'});
             }
 
             //revisar el password
-            const passCorrecto=await bcryptjs.compare(password,usuario.password);
-            if(!passCorrecto){
+            const passCorrect=await bcryptjs.compare(password,user.password);
+            if(!passCorrect){
                 return res.status(400).json({msg:'Password Incorrecto'});
             }
 
             //si todo es correcto
             //crear y firmar el JWT
             const payload={
-                usuario:{
-                    id:usuario.id
+                user:{
+                    id:user.id
                 }
             }
 

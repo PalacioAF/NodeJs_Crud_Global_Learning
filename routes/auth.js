@@ -1,11 +1,9 @@
-//Ruta para autenticar usuarios
+//Auth Route
 const express=require('express');
 const router=express.Router();
 const authController=require('../controllers/authController')
-const {check}=require('express-validator');
-const auth= require('../middleware/auth')
 
-//iniciar sesion
+//Login
 // api/auth
 router.post('/',authController.authUser);
 
