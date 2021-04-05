@@ -1,6 +1,5 @@
 const User=require('../models/User');
 const bcryptjs=require('bcryptjs');
-const {validationResult}=require('express-validator');
 const jwt=require('jsonwebtoken');
 
 exports.authUser= async (req,res)=>{
