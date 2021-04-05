@@ -2,20 +2,20 @@
 const express=require('express');
 const router=express.Router();
 const userController=require('../controllers/userController')
-const {check}=require('express-validator');
+const validator=require('express-joi-validation').createValidator({passError: true});
+const schemas = require('../middleware/userSchemas');
+const auth = require('../middleware/auth');
 
-//Crear un usuario
 // api/usuarios
-router.post('/',userController.createUser);
 
-router.get('/',userController.getUser);
+router.post('/',auth,validator.body(schemas.bodySchema),userController.createUser);
 
-router.get('/id/:id',userController.getUserId);   
+router.get('/',auth,validator.body(schemas.querySchema),userController.getUser);
 
-router.get('/UserName/',userController.getUserUserName);  
+router.get('/:id',auth,validator.params(schemas.paramsSchema),userController.getUserId);   
 
-router.put('/:id', userController.updateUser);
+router.put('/:id',auth,validator.params(schemas.paramsSchema),validator.body(schemas.bodySchema), userController.updateUser);
 
-router.delete('/:id',userController.deleteUser);  
+router.delete('/:id',auth,validator.params(schemas.paramsSchema),userController.deleteUser);  
 
 module.exports=router;

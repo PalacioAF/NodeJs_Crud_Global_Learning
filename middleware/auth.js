@@ -13,7 +13,6 @@ module.exports = function(req, res, next) {
 
     try {
         const cifrado = jwt.verify(token, process.env.SECRET);
-        req.usuario = cifrado.usuario;
         next();
     } catch (error) {
         res.status(401).json({msg: 'Token no válido'});
