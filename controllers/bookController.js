@@ -5,7 +5,7 @@ exports.createBook=async (req,res)=>{
         const {title,genre,author,read}=req.body;
         const newBook={};
 
-        let book=await Book.findOne({title});
+        let book=await Book.findOne({title,author});
 
         if(book){
             return res.status(400).json({msg:'El libro ya existe'});
